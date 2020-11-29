@@ -28,10 +28,10 @@ func HttpGet(url string) (result string ,err err){
 
 
 
-func doWork(start,end int){
-  fmt.Printf("正在爬取从%d到%d的页面",start，end)
-          //1.明确爬取范围
-    for i:=start,i<=end ,i++{
+func doWork(start int, end int){
+	fmt.Printf("正在爬取从%d到%d的页面",start,end)
+			//1.明确爬取范围
+    for i:=start,i<=end,i++ {
 		url ="http://search.zongheng.com/s?keyword=%E7%81%AB%E5%BD%B1&pageNo=2&sort=&isFromHuayu="
 		 strconv.Itoa(i-1)
 		 fmt.Println("url=",url)
@@ -70,7 +70,7 @@ func doWork(start,end int){
 
 
 	                          //把内容写入文件
-	                            fileName ：=strconv.Itoa(i)+".html"
+	                            fileName :=strconv.Itoa(i)+".html"
 	                            f,errl :=os.Create(fileName)
 	                            if errl !=nil {
 									fmt.Println("os.Create =",errl)
