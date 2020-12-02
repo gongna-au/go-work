@@ -1,4 +1,9 @@
+package main
+import(
+    "net/http")
+    func main{
 client := &http.Client{}
+
 req, err := http.NewRequest("GET", swoop.url, nil)
 //初始化
 for key, value := range swoop.header {
@@ -36,6 +41,7 @@ txt4 := rp4.FindAllStringSubmatch(html, -1)
 url := "https://movie.douban.com/top250?start=" + strconv.Itoa(i*25)
 swoop := &Swoop{url, header}
 html := swoop.get_html_header()
+    }
 
 
 <div class="star">
@@ -46,3 +52,4 @@ html := swoop.get_html_header()
 </div>
 
 <img width="100" alt="泰坦尼克号" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p511118051.jpg" class="">
+    

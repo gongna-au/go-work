@@ -26,7 +26,8 @@ var (
 		      fistStart()
 		      main()
 			}       
-			     else {
+				else
+				  {
 		         Timer()
 	            }
 }

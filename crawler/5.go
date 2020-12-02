@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"/home/gongna/go/src/github.com/gongna-au/go-work/crawler/goquery"
+	"Github./goquery"
 )
 
 func GetNews(s string) {
@@ -70,12 +70,12 @@ func fetch(url string) ([]string, error) { //分析出图片的下载路径
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.New(resp.Status)
 	}
-	doc, err := goquery.NewDocumentFromResponse(resp) 
+	doc, err := goquery.NewDocumentFromResponse(resp) //传入 HTTP 响应，内部拿到res.Body(实现了 io.Reader) 后的处理方式类似 NewDocumentFromReader.
 	if err != nil {
 
 		log.Fatal(err)
 	}
-	doc.Find("img").Each(func(i int, s *goquery.Selection) { 
+	doc.Find("img").Each(func(i int, s *goquery.Selection) { //迭代查询
 		link, ok := s.Attr("src")
 		if ok {
 			urls = append(urls, link)
@@ -91,9 +91,9 @@ func CleanUrls(RootPath string, PicPath []string) []string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	Scheme := UrlInfo.Scheme            
-	Host := UrlInfo.Host                
-	for _, SoucePath := range PicPath {
+	Scheme := UrlInfo.Scheme            //获取链接协议
+	Host := UrlInfo.Host                //获取链接主机名
+	for _, SoucePath := range PicPath { //处理得到绝对路径
 		if strings.HasPrefix(SoucePath, "http") {
 
 		} else if strings.HasPrefix(SoucePath, "//") {
@@ -118,7 +118,7 @@ func GetPicture(str string) {
 	}
 	AbsolutePath := CleanUrls(RootPath, PicPath)
 	picture := "/home/sgc/go/src/pachong/pachong/"   //制定下载地址
-	tmpdir, err := ioutil.TempDir(picture, "sanyue") 
+	tmpdir, err := ioutil.TempDir(picture, "sanyue") //制定文件夹前缀，后面不知道为什么乱加一堆数
 	fmt.Println(tmpdir)
 	err = downloadPic(AbsolutePath, tmpdir)
 	if err != nil {
@@ -139,9 +139,7 @@ func main() {
 		fmt.Println("pa qu news")
 		GetNews(str)
 
-	}
-	
-	else if options == "-p" || options == "-picture" {
+	} else if options == "-p" || options == "-picture" {
 		fmt.Println("please input addr:like http://example.com")
 		var str string
 		fmt.Scan(&str)
