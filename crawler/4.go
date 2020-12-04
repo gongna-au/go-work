@@ -1,12 +1,10 @@
 package main
 import(
     "net/http")
-    func main{
-client := &http.Client{}
-
+func main(){
 req, err := http.NewRequest("GET", swoop.url, nil)
 //初始化
-for key, value := range swoop.header {
+for key ,value ：= range swoop.header {
     req.Header.Add(key, value)
 }
 //发起请求
@@ -41,15 +39,6 @@ txt4 := rp4.FindAllStringSubmatch(html, -1)
 url := "https://movie.douban.com/top250?start=" + strconv.Itoa(i*25)
 swoop := &Swoop{url, header}
 html := swoop.get_html_header()
-    }
-
-
-<div class="star">
-    <span class="rating5-t"></span>
-    <span class="rating_num" property="v:average">9.5</span>
-    <span property="v:best" content="10.0"></span>
-    <span>702861人评价</span>
-</div>
-
-<img width="100" alt="泰坦尼克号" src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p511118051.jpg" class="">
     
+  }
+
