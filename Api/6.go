@@ -47,8 +47,13 @@ func (c *LoginController) Post() {
 }
 
 func main() {
-	MainController()
-	UserController()
-	Date()
-
+	func (this *MainController) Get() {
+		this.Ctx.WriteString("hello")
+		func (this *UserController) Get() {
+			this.Ctx.WriteString("hello")
+		}
+		func (this *Date()) Get() {
+			this.Ctx.WriteString("hello")
+		}
+	}
 }
