@@ -1,4 +1,4 @@
-package controllers
+package main
 
 import (
 	"strconv"
@@ -44,4 +44,11 @@ func (c *LoginController) Post() {
 	password := c.GetString("password")
 	content := strings.Join([]string{"用户名:" + username, "密码:" + password}, " ")
 	c.Ctx.WriteString(content)
+}
+
+func main() {
+	MainController
+	UserController
+	Date
+	
 }
