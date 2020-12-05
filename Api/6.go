@@ -47,8 +47,8 @@ func (c *LoginController) Post() {
 }
 
 func main() {
-	MainController
-	UserController
-	Date
-	
+	MainController()
+	UserController()
+	Date()
+
 }
