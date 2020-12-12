@@ -18,7 +18,7 @@ type Result struct {
 
 //Post 定义传输的数据类型及数据变量名称
 type Post struct {
-	UserName string //用户名
+	Username string //用户名
 	Password string //密码
 	Nickname string // 用于替换的新名字
 	Grade    int
@@ -38,10 +38,10 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	//用r.form 解析解析传下来的username
 	username := r.FormValue("Username")
-	r.ParseForm("Nickname")
-	r.ParseForm("Password")
-	r.ParseForm("Grade")
-	r.ParseForm("Age ")
+	nickname := r.FormValue("Nickname")
+	password := r.FormValue("Password")
+	grade := r.FormValue("Grade")
+	age := r.FormValue("Age ")
 
 	//打开典型的打开 mysql 驱动的数据库语法 ，
 	//驱动的名称就是: mysql，数据源名称就是：root:hellokang@tcp(localhost:3306)/test。
@@ -56,13 +56,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Succeed to connect to mysql!")
 	var post Post
-	post.UserName = username[0] //每次取第一个值，所以加[0]
-	post.Password = Password[0] //每次取第一个值，所以加[0]
-	post.Nickname = Nickname[0]
-	post.Grade = Grade[0]
-	post.Age = Age[0]
+	post.Username = string(username[0]) //每次取第一个值，所以加[0]
+	post.Password = string(password[0]) //每次取第一个值，所以加[0]
+	post.Nickname = string(nickname[0])
+	post.Grade = int(grade[0])
+	post.Age = int(age[0])
 
-	_, err = db.Exec("INSERT INTO user(Username,Password,Nickname,Grade,Age)VALUES(?,?)", post.Username, post.Password, post.Nickname, post.Grade, post.Age)
+	_, err = db.Exec("INSERT INTO user(Username,Password,Nickname,Grade,Age)VALUES(?,?,?,?,?)", post.Username, post.Password, post.Nickname, post.Grade, post.Age)
 	//插入数据
 
 	//直接调用encoding/json包中的json.Marshal()函数即可实现用json编码及解码字符串来实现前后端的“沟通”过程
@@ -98,11 +98,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	//处理前端传入的数据及数据库的操作
 	r.ParseForm()
-	Username := r.Form("Username")
-	Nickname := r.Form("Nickname")
-	Password := r.Form("Password")
-	Grade := r.Form("Grade")
-	Age := r.Form("Age ")
+	Username := r.FormValue("Username")
+	Nickname := r.FormValue("Nickname")
+	Password := r.FormValue("Password")
+	Grade := r.FormValue("Grade")
+	Age := r.FormValue("Age ")
 
 	//打开服务器
 	db, err := sql.Open("mysql", "什么什么源")
@@ -115,14 +115,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Succeed to connect to mysql!")
 
 	var post Post
-	post.UserName = Username[0] //每次取第一个值，所以加[0]
-	post.Password = Password[0] //每次取第一个值，所以加[0]
-	post.Nickname = Nickname[0]
-	post.Grade = Grade[0]
-	post.Age = Age[0]
+	post.Username = string(Username[0]) //每次取第一个值，所以加[0]
+	post.Password = string(Password[0]) //每次取第一个值，所以加[0]
+	post.Nickname = string(Nickname[0])
+	post.Grade = int(Grade[0])
+	post.Age = int(Age[0])
 
 	var row *sql.Row
-	row = db.QueryRow("select *from user where Username=? and Password=? and Nickname=? and Grade=？ and post.Age=？ ", post.Username, post.Password, post.Nickname, post.Grade, post.Age)
+	row = db.QueryRow("select *from user where Username=? and Password=? and Nickname=? and Grade=？ and Post.Age=？ ", post.Username, post.Password, post.Nickname, post.Grade, post.Age)
 	//检索数据
 	err = row.Scan(&post.Username, &post.Password, &post.Nickname, &post.Grade, &post.Age)
 	//遍历
@@ -150,13 +150,15 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 //注册路由
 func main() {
-	mux := http.NewServeMux()                //定义新路由
-	mux.HandleFunc("/login", Login)          // 登录路由
-	mux.HandleFunc("/register", Register)    // 注册路由
+	mux := http.NewServeMux()             //定义新路由
+	mux.HandleFunc("/login", Login)       // 登录路由
+	mux.HandleFunc("/register", Register) // 注册路由
+	fmt.Printf("成功")
 	err := http.ListenAndServe(":5007", mux) //监听端口
 	//可以登录http://localhost:5007/register?username=zwx&password=123 进行数据测试！
 	//在命令行输入:curl "http://localhost:5007/register?username=zwx&password=123"
 	if err != nil {
 		log.Fatal("ListenAndServer:", err.Error())
 	}
+
 }
